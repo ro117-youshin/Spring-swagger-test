@@ -1,13 +1,14 @@
 package com.example.swagger.service;
 
-import com.example.swagger.domain.Member;
-import com.example.swagger.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.swagger.domain.Member;
+import com.example.swagger.repository.MemberRepository;
 
 @Service
 public class MemberService {
@@ -32,7 +33,7 @@ public class MemberService {
     }
 
     public Member update(Member member) {
-
+    	
         Member updateMember = memberRepository.findByMemberId(member.getMemberId()).get();
         updateMember.setMemberId(member.getMemberId());
         updateMember.setPassword(member.getPassword());
@@ -43,7 +44,8 @@ public class MemberService {
 
         return memberRepository.save(updateMember);
     }
-
+    
+    @Transactional
     public void delete (String memberId) {
         memberRepository.deleteByMemberId(memberId);
     }
